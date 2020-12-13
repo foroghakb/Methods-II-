@@ -186,4 +186,39 @@ m1 <- lm(Gov$bti_ci ~ Gov$bci_bci,
  model1.2 <- lm(bci_bci ~fe_etfra+ bti_ci, data=Gov)
  summary(model1.2)
 
+
+##REGRESSION ANALYSIS, JOJO
+##RENAME variable
+require(reshape)
+Gov<-rename(Gov,c(bci_bci="Corruption"))
+Gov<-rename(Gov,c(bti_ci="Conflict intensity"))
+Gov<-rename(Gov,c(fe_etfra="Eth Frac"))
+Gov<-rename(Gov,c(cspf_sfi="State Fragility"))
+Gov<-rename(Gov,c(wbgi_gee="Gov Effectiveness"))
+Gov<-rename(Gov,c(fh_ipolity2="Demo Level"))
+view(Gov$`Demo Level`)
+
+##Multivariate regression with the controls of frac (fe_etfra), State Fragility (cspf_sfi), Government Effectiveness (wbgi_gee), and Democracy level
+#Conflict intensity as a function of corruption
+m1<-lm(Gov$`Conflict intensity`~Gov$Corruption,data = Gov)
+#view model 1
+summary(m1)
+#Conflict intensity as a function of corruption and ethnic fractionalization
+m2<-lm(Gov$`Conflict intensity`~Gov$Corruption+Gov$`Eth Frac`,data = Gov)
+##Conflict intensity as a function of corruption, ethnic fractionalization and govet effectiveness
+m3<-lm(Gov$`Conflict intensity`~Gov$Corruption+Gov$`Eth Frac`+Gov$`Gov Effectiveness`,data = Gov)
+#Conflict intensity as a function of corruption, ethnic frac, govt effectiveness and fragility
+m4<-lm(Gov$`Conflict intensity`~Gov$Corruption+Gov$`Eth Frac`+Gov$`Gov Effectiveness`+Gov$`State Fragility`,data = Gov)
+#Conflict intensity as a function of corruption, ethnic frac, govt effectiveness, fragility and democray level
+m5<-lm(Gov$`Conflict intensity`~Gov$Corruption+Gov$`Eth Frac`+Gov$`Gov Effectiveness`+Gov$`State Fragility`+Gov$`Demo Level`,data = Gov)
+
+#Multiple linear regression to predict the impact on conflict intensity with unit change in corruption and control variables
+summary(m5)
+#Multivariate regression analysis..........Not ideal but reveals changes in independent variable significance as other variables are introduced.
+export_summs(m1,m2,m3,m4,m5)
+
+#OLS.Simple Liniear Regression for Conflict Intensity and Corruption
+olsreg<-lm(Gov$`Conflict intensity`~Gov$Corruption,)
+summary(olsreg)
+
 ##ROBUSTNESS TESTS##
