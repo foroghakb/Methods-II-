@@ -202,6 +202,14 @@ Gov<-rename(Gov,c(wbgi_gee="Gov Effectiveness"))
 Gov<-rename(Gov,c(fh_ipolity2="Demo Level"))
 view(Gov$`Demo Level`)
 
+#stargazer examples: stargazer(linear.1, linear.2, probit.model, title="Regression Results",
+#align=TRUE,type= html, dep.var.labels=c("Overall Rating","High Rating"),
+#covariate.labels=c("Handling of Complaints","No Special Privileges",
+#"Opportunity to Learn","Performance-Based Raises","Too Critical","Advancement"),
+#omit.stat=c("LL","ser","f"), no.space=TRUE)
+#save.html file and then open it and tatda bootiful latex table!
+
+
 ##Multivariate regression with the controls of frac (fe_etfra), State Fragility (cspf_sfi), Government Effectiveness (wbgi_gee), and Democracy level
 #Conflict intensity as a function of corruption
 m1<-lm(Gov$`Conflict intensity`~Gov$Corruption,data = Gov)
@@ -221,16 +229,15 @@ summary(m5)
 #Multivariate regression analysis..........Not ideal but reveals changes in independent variable significance as other variables are introduced.
 export_summs(m1,m2,m3,m4,m5)
 
+
 #OLS.Simple Liniear Regression for Conflict Intensity and Corruption
 olsreg<-lm(Gov$`Conflict intensity`~Gov$Corruption,)
 summary(olsreg)
-
-
-#for the further analysis!
-
+#FURTHER ANALYSIS
 #Gurr defines partial democracies as less than 6, and more than 7 as full democracy
 Gov$semidemos <- ifelse(Gov$fh_ipolity2 < 6, 1, 0)
 
 #add Gov$semidemos, into model 6 as a dummy variable to test hypo 2, don't include level of democracy
+
 
 ##ROBUSTNESS TESTS##
