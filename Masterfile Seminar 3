@@ -202,12 +202,7 @@ Gov<-rename(Gov,c(wbgi_gee="Gov Effectiveness"))
 Gov<-rename(Gov,c(fh_ipolity2="Demo Level"))
 view(Gov$`Demo Level`)
 
-#stargazer examples: stargazer(linear.1, linear.2, probit.model, title="Regression Results",
-#align=TRUE,type= html, dep.var.labels=c("Overall Rating","High Rating"),
-#covariate.labels=c("Handling of Complaints","No Special Privileges",
-#"Opportunity to Learn","Performance-Based Raises","Too Critical","Advancement"),
-#omit.stat=c("LL","ser","f"), no.space=TRUE)
-#save.html file and then open it and tatda bootiful latex table!
+
 
 
 ##Multivariate regression with the controls of frac (fe_etfra), State Fragility (cspf_sfi), Government Effectiveness (wbgi_gee), and Democracy level
@@ -218,11 +213,11 @@ summary(m1)
 #Conflict intensity as a function of corruption and ethnic fractionalization
 m2<-lm(Gov$`Conflict intensity`~Gov$Corruption+Gov$`Eth Frac`,data = Gov)
 ##Conflict intensity as a function of corruption, ethnic fractionalization and govet effectiveness
-m3<-lm(Gov$`Conflict intensity`~Gov$Corruption+Gov$`Eth Frac`+Gov$`Gov Effectiveness`,data = Gov)
+m3<-lm(Gov$`Conflict intensity`~Gov$Corruption+Gov$`Eth Frac`,data = Gov)
 #Conflict intensity as a function of corruption, ethnic frac, govt effectiveness and fragility
-m4<-lm(Gov$`Conflict intensity`~Gov$Corruption+Gov$`Eth Frac`+Gov$`Gov Effectiveness`+Gov$`State Fragility`,data = Gov)
+m4<-lm(Gov$`Conflict intensity`~Gov$Corruption+Gov$`Eth Frac`+Gov$`State Fragility`,data = Gov)
 #Conflict intensity as a function of corruption, ethnic frac, govt effectiveness, fragility and democray level
-m5<-lm(Gov$`Conflict intensity`~Gov$Corruption+Gov$`Eth Frac`+Gov$`Gov Effectiveness`+Gov$`State Fragility`+Gov$`Demo Level`,data = Gov)
+m5<-lm(Gov$`Conflict intensity`~Gov$Corruption+Gov$`Eth Frac`+Gov$`State Fragility`+Gov$`Demo Level`,data = Gov)
 
 #Multiple linear regression to predict the impact on conflict intensity with unit change in corruption and control variables
 summary(m5)
@@ -234,10 +229,15 @@ export_summs(m1,m2,m3,m4,m5)
 olsreg<-lm(Gov$`Conflict intensity`~Gov$Corruption,)
 summary(olsreg)
 #FURTHER ANALYSIS
+round(Gov$Gov$fh_polity2 < 6, 1,0)
 #Gurr defines partial democracies as less than 6, and more than 7 as full democracy
-Gov$semidemos <- ifelse(Gov$fh_ipolity2 < 6, 1, 0)
+Gov$semidemos <- ifelse(Gov$fh_polity2 < 6, 1, 0)
 
 #add Gov$semidemos, into model 6 as a dummy variable to test hypo 2, don't include level of democracy
+m6 <- lm(Gov$`Conflict intensity`~Gov$Corruption+Gov$`Eth Frac`+Gov$`State Fragility`+Gov$semidemos, data = Gov)
+
+stargazer(m1,m2,m3,m4,m5,m6, title= "TABLE 4.2 OLS Regression Model", type= "html", dep.var.labels=c("Conflict Intensity"), covariate.labels=c("Corruption Index (BCI)", "Ethnic Fractionalisation", "State Fragility", "Democracy level", "Semi-Democracy Dummy"))
+
 
 
 ##ROBUSTNESS TESTS##
