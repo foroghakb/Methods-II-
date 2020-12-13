@@ -225,4 +225,12 @@ export_summs(m1,m2,m3,m4,m5)
 olsreg<-lm(Gov$`Conflict intensity`~Gov$Corruption,)
 summary(olsreg)
 
+
+#for the further analysis!
+
+#Gurr defines partial democracies as less than 6, and more than 7 as full democracy
+Gov$semidemos <- ifelse(Gov$fh_ipolity2 < 6, 1, 0)
+
+#add Gov$semidemos, into model 6 as a dummy variable to test hypo 2, don't include level of democracy
+
 ##ROBUSTNESS TESTS##
