@@ -59,8 +59,117 @@ abline(lm(Gov$bti_ci ~ Gov$bci_bci,
 
 
 
-   
-#controls, Tami
+##CONTROLS###
+ #tami
+ #checking CONTROL 1: Ethnic Fractionalization
+ #The variable ranges from 0 (perfectly homogeneous) to 1 (highly fragmented). 
+ #The values are assumed to be constant for all years.
+ summary(Gov$fe_etfra)
+ #N=154
+
+ #check the bivariate rel
+ plot(Gov$fe_etfra, Gov$bti_ci) #does not seem to be normally distributed, but please check
+
+ plot(Gov$fe_etfra, Gov$ConflictD)
+ cor.test(Gov$fe_etfra,Gov$bti_ci, na.rm=T)
+ plot(x= Gov$fe_etfra,
+      y= Gov$bti_ci,
+      main= "Figure 4.2: OLS Control for Ethnic Fractionalization",
+      xlab= "Ethnic Fractionalization",
+      ylab= "Conflict Intensity",
+      pch= 20,
+      cex.main = 0.9)
+ abline(lm(Gov$bti_ci ~ Gov$fe_etfra,
+           data = Gov))
+
+ p_title <- "Plot of Ethnic Fractionalization and Conflict Intensity by Country"
+ x_label <- "Ethnic Fractionalization"
+ y_label <- "Conflict Intensity"
+ p <- ggplot(Gov, aes(x =fe_etfra, y= bti_ci,label=cname))+ 
+   geom_point() +
+   geom_text_repel(aes(label =cname),
+                   hjust=0, vjust=0,
+                   size=3)
+ p + labs(x = x_label, y = y_label, title = p_title)                  
+ p + labs(x = x_label, y = y_label, title = p_title) + geom_smooth(method = "lm", se =FALSE)
+
+ abline(lm(Gov$bti_ci ~ Gov$fe_etfra,
+           data = Gov))
+
+ #CHECKING CONTROL 2: STATE FRAGILITY
+ summary(Gov$cspf_sfi)
+ #N=166
+ plot(Gov$cspf_sfi, Gov$bti_ci)
+
+ cor.test(Gov$cspf_sfi,Gov$bti_ci, na.rm=T)
+ plot(x= Gov$cspf_sfi,
+      y= Gov$bti_ci,
+      main= "Figure 4.3: OLS Control for State Fragility",
+      xlab= "State Fragility",
+      ylab= "Conflict Intensity",
+      pch= 20,
+      cex.main = 0.9)
+ abline(lm(Gov$bti_ci ~ Gov$cspf_sfi,
+           data = Gov))
+
+
+ #controls, Tami
+ p_title <- "Plot of State Fragility and Conflict Intensity by Country"
+ x_label <- "State Fragility"
+ y_label <- "Conflict Intensity"
+ p <- ggplot(Gov, aes(x =cspf_sfi, y= bti_ci,label=cname))+ 
+   geom_point() +
+   geom_text_repel(aes(label =cname),
+                   hjust=0, vjust=0,
+                   size=0.5)
+ p + labs(x = x_label, y = y_label, title = p_title)                  
+ p + labs(x = x_label, y = y_label, title = p_title) + geom_smooth(method = "lm", se =FALSE)
+
+ abline(lm(Gov$bti_ci ~ Gov$cspf_sfi,
+           data = Gov))
+
+ ###THERE IS A WARNING A WARNING MESSAGE##
+
+ #CHECKING CONTROL 3: GOVERNMENT EFFECTIVENESS
+
+ summary(Gov$wbgi_gee)
+ N=192
+
+ #check bivariate rel
+ plot(Gov$wbgi_gee, Gov$bti_ci)
+
+ cor.test(Gov$wbgi_gee,Gov$bti_ci, na.rm=T) #CORRELATION IS MINUS?
+ plot(x= Gov$wbgi_gee,
+      y= Gov$bti_ci,
+      main= "Figure 4.3: OLS Control for Government Effectiveness",
+      xlab= "Government Effectiveness",
+      ylab= "Conflict Intensity",
+      pch= 20,
+      cex.main = 0.9)
+ abline(lm(Gov$bti_ci ~ Gov$wbgi_gee,
+           data = Gov))
+
+ p_title <- "Plot of Government Effectiveness and Conflict Intensity by Country"
+ x_label <- "Government Effectiveness"
+ y_label <- "Conflict Intensity"
+ p <- ggplot(Gov, aes(x =wbgi_gee, y= bti_ci,label=cname))+ 
+   geom_point() +
+   geom_text_repel(aes(label =cname),
+                   hjust=0, vjust=0,
+                   size=0.5)
+ p + labs(x = x_label, y = y_label, title = p_title)                  
+ p + labs(x = x_label, y = y_label, title = p_title) + geom_smooth(method = "lm", se =FALSE)
+
+ abline(lm(Gov$wbgi_gee ~ Gov$cspf_sfi,
+           data = Gov))
+
+ CHECKING CONTROL 4: REGIME TYPE
+ summary(Gov$ht_regtype1)
+ #N=185
+ plot(Gov$ht_regtype1, Gov$bti_ci) #Does not look normally distributed, data points pooled on the most-left and most-right, should we log it?
+
+ cor.test(Gov$ht_regtype1,Gov$bti_ci, na.rm=T) #Correlation is minus?
+
 
 ##DESCRIPTIVE STATS AND VISUALISATIONS##
 
@@ -73,5 +182,8 @@ abline(lm(Gov$bti_ci ~ Gov$bci_bci,
 m1 <- lm(Gov$bti_ci ~ Gov$bci_bci,
                  data = Gov)
 
+#(tami)testing model when controling for ethnic fractionalization
+ model1.2 <- lm(bci_bci ~fe_etfra+ bti_ci, data=Gov)
+ summary(model1.2)
 
 ##ROBUSTNESS TESTS##
