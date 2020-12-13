@@ -3,7 +3,7 @@
 ###############################
 
 ##LOAD LIBRARIES##
-library(Stargazer)
+library(stargazer)
 library(tidyverse)
 library(ggrepel)
 
