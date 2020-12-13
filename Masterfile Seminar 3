@@ -43,7 +43,7 @@ abline(lm(Gov$bti_ci ~ Gov$bci_bci,
                  data = Gov))
                  
 
-p_title <- "Plot of Corruption and Conflict Intensity by Country"
+p_title <- "Figure 4.1: Plot of Corruption and Conflict Intensity by Country"
 x_label <- "Bayesian Corruption Index"
 y_label <- "Conflict Intensity"
 
