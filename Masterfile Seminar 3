@@ -6,6 +6,10 @@
 library(stargazer)
 library(tidyverse)
 library(ggrepel)
+library(jtools)
+library(huxtable)
+library(reshape)
+
 
 #setwd()
 
@@ -188,9 +192,7 @@ m1 <- lm(Gov$bti_ci ~ Gov$bci_bci,
 
 
 ##REGRESSION ANALYSIS, JOJO
-library(jtools)
-library(huxtable)
-library(reshape)
+
 require(reshape)
 ##RENAME variable
 require(reshape)
